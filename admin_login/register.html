@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Register</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="register-box">
+    <h2>Register (Demo Only)</h2>
+    <form onsubmit="return registerUser();">
+  <input type="text" id="regUsername" placeholder="Username" required />
+  <input type="email" id="regEmail" placeholder="Email" required />
+  <input type="password" id="regPassword" placeholder="Password" required />
+  <input type="password" id="regConfirm" placeholder="Confirm Password" required />
+  <label for="regRole">Role:</label>
+  <select id="regRole" onchange="toggleAdminCode()" required>
+    <option value="">-- Select Role --</option>
+    <option value="admin">Admin</option>
+    <option value="editor">Editor</option>
+    <option value="viewer">Viewer</option>
+  </select>
+  <input type="text" id="adminCode" placeholder="Admin Code" style="display:none;" />
+  <button type="submit">Register</button>
+</form>
+
+<script>
+function toggleAdminCode() {
+  const role = document.getElementById('regRole').value;
+  document.getElementById('adminCode').style.display = (role === 'admin') ? 'block' : 'none';
+}
+
+function registerUser() {
+  const username = document.getElementById('regUsername').value.trim();
+  const password = document.getElementById('regPassword').value.trim();
+  const confirm  = document.getElementById('regConfirm').value.trim();
+  const role     = document.getElementById('regRole').value;
+  const adminCode = document.getElementById('adminCode').value.trim();
+
+  if (password !== confirm) {
+    alert('Passwords do not match!');
+    return false;
+  }
+
+  if (role === 'admin' && adminCode !== 'Queen@123') {
+    alert('Invalid Admin Code!');
+    return false;
+  }
+
+  // Save fake user to localStorage
+  localStorage.setItem('regUsername', username);
+  localStorage.setItem('regPassword', password);
+  localStorage.setItem('regRole', role);
+
+  alert('Registration successful! Now login.');
+  window.location.href = 'index.html';
+  return false;
+}
+</script>
+  </div>
+</body> 
+</html>
